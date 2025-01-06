@@ -111,13 +111,13 @@ const Navbar = () => {
             >
               About
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="/events"
               className="block px-4 py-2 text-white bg-gray-900 rounded"
               onClick={closeMenu}
             >
               Events
-            </NavLink>
+            </NavLink> */}
             {currentUser && currentUser.role === "admin" && (
               <NavLink
                 to="/admin"
@@ -157,13 +157,13 @@ const Navbar = () => {
                 Profile
               </NavLink>
             ) : (
-              <NavLink
-                to="/signin"
-                className="block px-4 py-2 text-white bg-gray-900 rounded"
-                onClick={closeMenu}
-              >
-                Signin
-              </NavLink>
+              // <NavLink
+              //   to="/signin"
+              //   className="block px-4 py-2 text-white bg-gray-900 rounded"
+              //   onClick={closeMenu}
+              // >
+              //   Signin
+              // </NavLink>
             )}
           </div>
         </nav>
