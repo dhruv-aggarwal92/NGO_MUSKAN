@@ -35,9 +35,9 @@ const Navbar = () => {
               <NavLink to="/about" className="nav-link">
                 <li className="">About</li>
               </NavLink>
-              <NavLink to="/events" className="nav-link">
+              {/* <NavLink to="/events" className="nav-link">
                 <li className="">Events</li>
-              </NavLink>
+              </NavLink> */}
               {currentUser &&
                 currentUser.role === "admin" && (
                   <NavLink to="/admin" className="nav-link">
@@ -53,7 +53,7 @@ const Navbar = () => {
               <NavLink to="/volunteering" className="nav-link">
                 <li className="">Volunteering</li>
               </NavLink>
-              <NavLink to="/profile" className="nav-link">
+              {/* <NavLink to="/profile" className="nav-link">
                 {currentUser ? (
                   <img
                     src={User}
@@ -63,7 +63,7 @@ const Navbar = () => {
                 ) : (
                   <li className="nav-link ">Signin</li>
                 )}
-              </NavLink>
+              </NavLink> */}
               <NavLink to="/donate" className="">
                 <button className="group relative h-10 w-28 overflow-hidden rounded-lg bg-white text-lg shadow">
                   <div className="absolute inset-0 w-3 bg-DonateGreen transition-all duration-[250ms] ease-out group-hover:w-full"></div>

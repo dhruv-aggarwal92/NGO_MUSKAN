@@ -110,7 +110,7 @@ const Volunteering = () => {
               </p>
             </div>
             {/* Testimonial 04 */}
-            <div className="flex flex-col items-center">
+            {/* <div className="flex flex-col items-center">
               <img
                 className="w-80 h-80 object-cover rounded-full shadow-md mb-5"
                 src={Testi5}
@@ -126,7 +126,7 @@ const Volunteering = () => {
                 in the first place. This program has given me a sense of purpose
                 and a community that feels like family.
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
         {/* TESTIMONIAL SECTION ENDS HERE */}

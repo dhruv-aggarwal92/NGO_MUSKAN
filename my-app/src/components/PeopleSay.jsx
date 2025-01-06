@@ -7,14 +7,14 @@ import "slick-carousel/slick/slick-theme.css";
 const peopleSay = [
   {
     comment: `"I'm truly inspired by the impactful work your NGO is doing. Keep up the amazing effort!"`,
-    author: `Vaibhav`,
+    author: `Kartik`,
   },
   {
-    comment: `"Thank you for making a real difference in our community. Your dedication is commendable"`,
+    comment: `"Your pad distribtion drives is very helpful for the rural areas."`,
     author: `Dhruv`,
   },
   {
-    comment: `"Thank you for making a real difference in our community. Your dedication is commendable"`,
+    comment: `"Thank you for making a real difference in our community. Your dedication is commendable."`,
     author: `Deva`,
   },
   // Add more comments as needed
