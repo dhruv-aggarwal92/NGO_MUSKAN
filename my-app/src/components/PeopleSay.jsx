@@ -11,7 +11,11 @@ const peopleSay = [
   },
   {
     comment: `"Thank you for making a real difference in our community. Your dedication is commendable"`,
-    author: `Vaibhav`,
+    author: `Dhruv`,
+  },
+  {
+    comment: `"Thank you for making a real difference in our community. Your dedication is commendable"`,
+    author: `Deva`,
   },
   // Add more comments as needed
 ];
