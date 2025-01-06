@@ -148,7 +148,7 @@ const Navbar = () => {
             >
               Volunteering
             </NavLink>
-            {currentUser ? (
+            {/* {currentUser ? (
               <NavLink
                 to="/profile"
                 className="block px-4 py-2 text-white bg-gray-900 rounded"
@@ -157,14 +157,14 @@ const Navbar = () => {
                 Profile
               </NavLink>
             ) : (
-              // <NavLink
-              //   to="/signin"
-              //   className="block px-4 py-2 text-white bg-gray-900 rounded"
-              //   onClick={closeMenu}
-              // >
-              //   Signin
-              // </NavLink>
-            )}
+              <NavLink
+                to="/signin"
+                className="block px-4 py-2 text-white bg-gray-900 rounded"
+                onClick={closeMenu}
+              >
+                Signin
+              </NavLink>
+            )} */}
           </div>
         </nav>
       </PageLayout>
