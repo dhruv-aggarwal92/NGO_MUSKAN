@@ -35,7 +35,7 @@ module.exports.signup = async (req, res, next) => {
     await sendEmail(
       newUser.email,
       "Email Verification",
-      url.replace("localhost:3000", "https://ngo-muskan.vercel.app")
+      url.replace("localhost:3000", "https://ngo-muskan-lovat.vercel.app")
     );
 
     res
@@ -85,7 +85,7 @@ module.exports.signin = async (req, res, next) => {
       await sendEmail(
         validUser.email,
         "Email Verification",
-        url.replace("localhost:3000", "https://ngo-muskan.vercel.app")
+        url.replace("localhost:3000", "https://ngo-muskan-lovat.vercel.app")
       );
 
       return res.status(400).send({

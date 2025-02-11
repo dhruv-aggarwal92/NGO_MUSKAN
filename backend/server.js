@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 const allowedOrigins = [
   'http://localhost:3000', // Local development
   'https://www.ngomuskan.com',
-  'https://ngo-muskan-lovat.vercel.app/', // Deployed frontend
+  'https://ngo-muskan-lovat.vercel.app', // Deployed frontend
 ];
 
 // Middleware for CORS
