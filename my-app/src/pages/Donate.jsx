@@ -24,8 +24,8 @@ function DonationOptionsPage() {
   const [showQRCode, setShowQRCode] = useState(false);
 
   // Cost per unit for each cause
-  const ratePad = 50;   // e.g., Rs.50 per pad donation
-  const rateDog = 100;  // e.g., Rs.100 per dog feeding
+  const ratePad = 10;   // e.g., Rs.10 per pad donation
+  const rateDog = 30;  // e.g., Rs.30 per dog feeding
   const rateTree = 200; // e.g., Rs.200 per tree planting
 
   // Determine the effective donation count for each cause:
@@ -82,7 +82,7 @@ function DonationOptionsPage() {
   return (
     <PageLayout>
       <div className="min-h-screen bg-gray-100 py-10 px-4">
-        <h1 className="text-4xl font-bold text-center mb-8 text-slate-900 font-montserrat">
+        <h1 className="text-4xl font-bold text-center mb-8 text-headingPink font-montserrat">
           Support Our Causes
         </h1>
 
