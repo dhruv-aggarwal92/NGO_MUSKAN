@@ -1,75 +1,307 @@
-import React, { useState } from "react";
-import NGOMuskanQR from "../images/NGOMuskanQR.jpg";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import PageLayout from "../components/PageLayout";
 
-function DonationPage() {
-  const [copied, setCopied] = useState(false);
+// Import cause images (update these paths with your own images)
+import donatePadsImg from "../images/pads.jpg";
+import feedDogsImg from "../images/dog2.jpg";
+import plantTreesImg from "../images/tree.jpg";
+import NGOMuskanQR from "../images/NGOMuskanQR.jpg";
 
-  const handleCopy = (text) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // Display copy success for 2 seconds
-      })
-      .catch(() => {
-        console.error("Failed to copy text to clipboard");
-      });
+function DonationOptionsPage() {
+  // State for preset and custom inputs for each cause
+  // Pads
+  const [padSelect, setPadSelect] = useState(0);
+  const [padCustom, setPadCustom] = useState("");
+  // Dogs
+  const [dogSelect, setDogSelect] = useState(0);
+  const [dogCustom, setDogCustom] = useState("");
+  // Trees
+  const [treeSelect, setTreeSelect] = useState(0);
+  const [treeCustom, setTreeCustom] = useState("");
+
+  // Whether to show the QR code section
+  const [showQRCode, setShowQRCode] = useState(false);
+
+  // Cost per unit for each cause
+  const ratePad = 50;   // e.g., Rs.50 per pad donation
+  const rateDog = 100;  // e.g., Rs.100 per dog feeding
+  const rateTree = 200; // e.g., Rs.200 per tree planting
+
+  // Determine the effective donation count for each cause:
+  // Use the custom value if a positive number is entered; otherwise use the preset value.
+  const effectivePadCount =
+    padCustom !== "" && parseInt(padCustom, 10) > 0
+      ? parseInt(padCustom, 10)
+      : padSelect;
+  const effectiveDogCount =
+    dogCustom !== "" && parseInt(dogCustom, 10) > 0
+      ? parseInt(dogCustom, 10)
+      : dogSelect;
+  const effectiveTreeCount =
+    treeCustom !== "" && parseInt(treeCustom, 10) > 0
+      ? parseInt(treeCustom, 10)
+      : treeSelect;
+
+  // Calculate subtotals and total donation amount
+  const padSubtotal = effectivePadCount * ratePad;
+  const dogSubtotal = effectiveDogCount * rateDog;
+  const treeSubtotal = effectiveTreeCount * rateTree;
+  const totalAmount = padSubtotal + dogSubtotal + treeSubtotal;
+
+  // Ref for the QR code section so that we can scroll into view
+  const qrRef = useRef(null);
+  useEffect(() => {
+    if (showQRCode && qrRef.current) {
+      qrRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [showQRCode]);
+
+  // Proceed button handler: show QR code if there's a donation amount
+  const handleProceed = () => {
+    if (totalAmount > 0) {
+      setShowQRCode(true);
+    } else {
+      alert("Please select at least one donation option.");
+    }
+  };
+
+  // Animation variants for the cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  // Animation variants for the QR code section
+  const qrVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.8 },
   };
 
   return (
     <PageLayout>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-10 px-4">
-        <h1 className="text-4xl font-bold text-center mb-8 font-montserrat text-slate-900">Make a Donation</h1>
+      <div className="min-h-screen bg-gray-100 py-10 px-4">
+        <h1 className="text-4xl font-bold text-center mb-8 text-slate-900 font-montserrat">
+          Support Our Causes
+        </h1>
 
-        {/* QR Code Image */}
-        <div className="mb-8">
-          <img
-            src={NGOMuskanQR}
-            alt="QR Code for Donation"
-            className="w-full max-w-sm h-auto mx-auto rounded-lg"
-          />
+        {/* Donation Cause Cards Container */}
+        <div className="flex flex-wrap justify-center gap-4">
+          {/* Donate Pads Card */}
+          <motion.div
+            className="bg-white rounded-lg shadow w-72"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5 }}
+          >
+            {/* Cause Image */}
+            <img
+              src={donatePadsImg}
+              alt="Donate Pads"
+              className="w-full h-40 object-cover rounded-t-lg"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-2 text-slate-900 font-roboto">
+                Donate Pads
+              </h2>
+              <p className="mb-2 text-gray-700">
+                Each pad donation costs Rs. {ratePad}.
+              </p>
+              <select
+                value={padSelect}
+                onChange={(e) =>
+                  setPadSelect(parseInt(e.target.value, 10))
+                }
+                className="w-full px-3 py-2 border rounded mb-2"
+              >
+                <option value="0">Select preset donation</option>
+                <option value="10">10 Pads</option>
+                <option value="20">20 Pads</option>
+                <option value="30">30 Pads</option>
+                <option value="50">50 Pads</option>
+                <option value="75">75 Pads</option>
+                <option value="100">100 Pads</option>
+
+              </select>
+              <p className="text-sm text-gray-600 mb-1">
+                Or enter a custom number:
+              </p>
+              <input
+                type="number"
+                min="0"
+                value={padCustom}
+                onChange={(e) => setPadCustom(e.target.value)}
+                className="w-full px-3 py-2 border rounded"
+                placeholder="Custom input"
+              />
+              <p className="mt-2 text-gray-700">
+                Subtotal: Rs. {padSubtotal}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Feed Dogs Card */}
+          <motion.div
+            className="bg-white rounded-lg shadow w-72"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.6 }}
+          >
+            {/* Cause Image */}
+            <img
+              src={feedDogsImg}
+              alt="Feed Dogs"
+              className="w-full h-40 object-cover rounded-t-lg"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-2 text-slate-900 font-roboto">
+                Feed Dogs
+              </h2>
+              <p className="mb-2 text-gray-700">
+                Each dog feeding costs Rs. {rateDog}.
+              </p>
+              <select
+                value={dogSelect}
+                onChange={(e) =>
+                  setDogSelect(parseInt(e.target.value, 10))
+                }
+                className="w-full px-3 py-2 border rounded mb-2"
+              >
+                <option value="0">Select preset donation</option>
+                <option value="5">5 Dogs</option>
+                <option value="10">10 Dogs</option>
+                <option value="15">15 Dogs</option>
+                <option value="20">20 Dogs</option>
+                <option value="25">25 Dogs</option>
+                <option value="30">30 Dogs</option>
+
+              </select>
+              <p className="text-sm text-gray-600 mb-1">
+                Or enter a custom number:
+              </p>
+              <input
+                type="number"
+                min="0"
+                value={dogCustom}
+                onChange={(e) => setDogCustom(e.target.value)}
+                className="w-full px-3 py-2 border rounded"
+                placeholder="Custom input"
+              />
+              <p className="mt-2 text-gray-700">
+                Subtotal: Rs. {dogSubtotal}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Plant Trees Card */}
+          <motion.div
+            className="bg-white rounded-lg shadow w-72"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.7 }}
+          >
+            {/* Cause Image */}
+            <img
+              src={plantTreesImg}
+              alt="Plant Trees"
+              className="w-full h-40 object-cover rounded-t-lg"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold mb-2 text-slate-900 font-roboto">
+                Plant Trees
+              </h2>
+              <p className="mb-2 text-gray-700">
+                Each tree planting costs Rs. {rateTree}.
+              </p>
+              <select
+                value={treeSelect}
+                onChange={(e) =>
+                  setTreeSelect(parseInt(e.target.value, 10))
+                }
+                className="w-full px-3 py-2 border rounded mb-2"
+              >
+                <option value="0">Select preset donation</option>
+                <option value="5">5 Trees</option>
+                <option value="10">10 Trees</option>
+                <option value="15">15 Trees</option>
+                <option value="20">20 Trees</option>
+                <option value="25">25 Trees</option>
+                <option value="30">30 Trees</option>
+              </select>
+              <p className="text-sm text-gray-600 mb-1">
+                Or enter a custom number:
+              </p>
+              <input
+                type="number"
+                min="0"
+                value={treeCustom}
+                onChange={(e) => setTreeCustom(e.target.value)}
+                className="w-full px-3 py-2 border rounded"
+                placeholder="Custom input"
+              />
+              <p className="mt-2 text-gray-700">
+                Subtotal: Rs. {treeSubtotal}
+              </p>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Donation Details */}
-        <section className="flex flex-col gap-4 mb-8 w-full max-w-md">
-          <h2 className="text-2xl font-semibold text-center font-roboto text-slate-900">UPI Details</h2>
-          <div className="flex items-center justify-between px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-200 cursor-pointer" onClick={() => handleCopy("9870221738")}>
-            <span>Phone Number:</span>
-            <span className="text-gray-700 font-roboto">
-              {copied ? "Copied!" : "9870221738"}
-            </span>
-            {copied && <span className="text-green-500 ml-2">✓</span>}
-          </div>
-          <div className="flex items-center justify-between px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-200 cursor-pointer" onClick={() => handleCopy("your_upi_id")}>
-            <span>UPI ID:</span>
-            <span className="text-gray-700 font-roboto">
-              {copied ? "Copied!" : "your_upi_id"}
-            </span>
-            {copied && <span className="text-green-500 ml-2">✓</span>}
-          </div>
-        </section>
+        {/* Total Donation & Proceed Button */}
+        <motion.div
+          className="bg-white p-6 rounded-lg shadow text-center mt-8 max-w-md mx-auto"
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-2xl font-semibold mb-4 text-slate-900 font-roboto">
+            Total Donation
+          </h2>
+          <p className="text-xl mb-4">Rs. {totalAmount}</p>
+          <motion.button
+            onClick={handleProceed}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-green-500 text-white rounded hover:bg-green-600"
+          >
+            Proceed to Payment
+          </motion.button>
+        </motion.div>
 
-        {/* Informational Section */}
-        <section className="mb-8 w-full max-w-md font-montserrat text-slate-900">
-          <h2 className="text-xl font-semibold text-center mb-4">Your Impact</h2>
-          <p className="text-center text-gray-700 font-roboto">
-            Your generous donations help us provide essential services to those
-            in need. Each contribution makes a significant difference in
-            someone's life. Thank you for your support ♥
-          </p>
-        </section>
-
-        {/* Call to Action Removed */}
-        
-        {/* Payment Security Assurance */}
-        <p className="text-center mt-8 text-sm text-gray-500 font-roboto">
-          Your donations are secure. We use industry-standard security measures
-          to protect your information.
-        </p>
+        {/* QR Code Section (Animated & Auto-Scroll) */}
+        <AnimatePresence>
+          {showQRCode && (
+            <motion.div
+              ref={qrRef}
+              className="bg-white p-6 rounded-lg shadow text-center mt-8 max-w-md mx-auto"
+              variants={qrVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-2xl font-semibold mb-4 text-slate-900 font-roboto">
+                Scan to Donate
+              </h2>
+              <img
+                src={NGOMuskanQR}
+                alt="Donation QR Code"
+                className="mx-auto w-full max-w-sm rounded-lg"
+              />
+              <p className="mt-2 text-gray-700">
+                Please scan the QR code above to complete your donation of Rs.{" "}
+                {totalAmount}.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </PageLayout>
   );
 }
 
-export default DonationPage;
+export default DonationOptionsPage;

@@ -28,9 +28,11 @@ const ContactUs = () => {
     const formData = new FormData(form.current);
     const name = formData.get("user_name");
     const email = formData.get("user_email");
+    const phone_no = formData.get("phone_no");
     const message = formData.get("message");
 
-    if (!name || !email || !message) {
+
+    if (!name || !email || !message || !phone_no) {
       toast.error("Please fill out all fields!");
       return;
     }
@@ -84,6 +86,20 @@ const ContactUs = () => {
               type="text"
               id="user_name"
               name="user_name"
+              className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2 font-montserrat"
+              htmlFor="phone_no"
+            >
+              Phone No.
+            </label>
+            <input
+              type="Number"
+              id="phone_no"
+              name="phone_no"
               className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
