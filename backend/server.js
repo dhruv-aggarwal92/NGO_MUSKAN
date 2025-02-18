@@ -21,15 +21,24 @@ const allowedOrigins = [
 // Middleware for CORS
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true); // Allow requests with no origin (like mobile apps or curl requests)
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
       return callback(new Error('Not allowed by CORS'));
     }
   },
+  methods: "GET, POST, PUT, DELETE, OPTIONS",
+  allowedHeaders: "Content-Type, Authorization",
   credentials: true, // This allows cookies to be sent
 }));
+// Handle preflight requests explicitly
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", allowedOrigins[0]);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(200);
+});
 
 // Other middleware
 app.use(bodyParser.json());
