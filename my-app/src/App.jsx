@@ -10,6 +10,9 @@ import Header from "./components/Header";
 import Donate from "./pages/Donate";
 import Profile from "./pages/Profile";
 import Volunteering from "./pages/Volunteering";
+import TermsAndConditions from "./pages/TermsAndConditions"
+import PrivacyPolicy from "./pages/PrivacyPolicy"
+import NoRefundPolicy from "./pages/NoRefundPolicy"
 // import Impacts from "./pages/Impacts";
 import SocialLinks from "./components/SocialLinks";
 import Gallery from "./pages/Gallery";
@@ -34,6 +37,10 @@ function App() {
         <Route path="/donate" element={<Donate />}></Route>
         <Route path="/gallery" element={<Gallery />}></Route>
         <Route path="/volunteering" element={<Volunteering />}></Route>
+        <Route path="/termsandconditions" element={<TermsAndConditions />}></Route>
+        <Route path="/privacypolicy" element={<PrivacyPolicy />}></Route>
+        <Route path="/noRefundpolicy" element={<NoRefundPolicy />}></Route>
+
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/api/user/:id/verify/:token" element={<EmailVerify />} />
